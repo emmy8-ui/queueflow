@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: ./api
+    container_name: queueflow-api
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: ./worker
+    container_name: queueflow-worker
