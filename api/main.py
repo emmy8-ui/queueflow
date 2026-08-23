@@ -25,6 +25,11 @@ def redis_health():
     redis_client.ping()
     return {"redis": "connected"}
 
+@app.post("/jobs")
+def create_job(job: str):
+    redis_client.rpush("jobs", job)
+    return {"status": "queued", "job": job}
+
 
 
 
