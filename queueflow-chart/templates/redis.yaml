@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queueflow-redis
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      app: queueflow-redis
+  template:
+    metadata:
+      labels:
+        app: queueflow-redis
+    spec:
+      containers:
+        - name: redis
+          image: {{ .Values.redis.image }}
+          ports:
+            - containerPort: {{ .Values.redisService.port }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: queueflow-redis
+  ports:
+    - port: {{ .Values.redisService.port }}
+      targetPort: {{ .Values.redisService.port }}

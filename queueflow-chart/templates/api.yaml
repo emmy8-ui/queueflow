@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queueflow-api
+spec:
+  replicas: {{ .Values.api.replicas }}
+  selector:
+    matchLabels:
+      app: queueflow-api
+  template:
+    metadata:
+      labels:
+        app: queueflow-api
+    spec:
+      containers:
+        - name: api
+          image: {{ .Values.api.image }}
+          imagePullPolicy: Never
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: REDIS_HOST
+              value: redis
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: queueflow-api
+spec:
+  selector:
+    app: queueflow-api
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+  type: ClusterIP

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queueflow-worker
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: queueflow-worker
+  template:
+    metadata:
+      labels:
+        app: queueflow-worker
+    spec:
+      containers:
+        - name: worker
+          image: {{ .Values.worker.image }}
+          imagePullPolicy: Never
+          env:
+            - name: REDIS_HOST
+              value: redis

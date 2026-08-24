@@ -1,0 +1,17 @@
+api:
+  image: queueflow-api:latest
+  replicas: 1
+
+worker:
+  image: queueflow-worker:latest
+  replicas: 1
+
+redis:
+  image: redis:7-alpine
+  replicas: 1
+
+service:
+  port: 8000
+
+redisService:
+  port: 6379
